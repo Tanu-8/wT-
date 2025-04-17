@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record form</title>
+    <style>
+        form {
+           background: white;
+           width: 600px;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+   
+    <form id="form" onsubmit="return validate()">
+        <h2 style="text-align: center;">Student Record form</h2>
+
+        <label for="name">Name :</label>
+        <input type="text" id="fname" name="name" placeholder="Enter first name">  
+        &nbsp; &nbsp;
+        <input type="text" id="lname" name="lname" placeholder="Enter last name">
+        <br><br>
+        <span id="nameError" class="error"></span>
+
+        <label for="fname">Father's name :</label>
+        <input type="text" id="fatherName" name="fname" placeholder="Enter Father's name">
+        <br><br>
+        <span id="fatherNameError" class="error"></span>
+
+        <label for="email">Email-ID :</label>
+        <input type="text" id="email" name="email" placeholder="Enter Email-Id">
+        <br><br>
+        <span id="emailError" class="error"></span>
+
+        <label for="phone">Mobile No. :</label>
+        <input type="text" id="phone" name="phone">
+        <br><br>
+        <span id="phoneError" class="error"></span>
+
+        <label for="dob">DOB :</label>
+        <input type="date" id="dob" name="dob">
+        <br><br>
+        <span id="dobError" class="error"></span>
+
+        <label for="gender">Gender :</label>
+        <input type="radio" id="male" name="gender" value="Male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="Female">
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="Other">
+        <label for="other">Other</label>
+        <br><br>
+        <span id="genderError" class="error"></span>
+
+        <label for="dept">Department :</label>
+        <select name="dept" id="dept">
+            <option value="">Select Department</option>
+            <option value="MCA">MCA</option>
+            <option value="MBA">MBA</option>
+            <option value="BCA">BCA</option>
+            <option value="BBA">BBA</option>
+        </select>
+        <br><br>
+        <span id="deptError" class="error"></span>
+
+        <label for="city">City :</label>
+        <select name="city" id="city">
+            <option value="">Select City</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Noida">Noida</option>
+            <option value="Ghaziabad">Ghaziabad</option>
+            <option value="Bulandshahr">Bulandshahr</option>
+            <option value="Varanasi">Varanasi</option>
+        </select>
+        <br><br>
+        <span id="cityError" class="error"></span>
+
+        <label for="add">Address :</label><br>
+        <textarea name="add" id="address" rows="4"></textarea>
+        <br><br>
+        <span id="addressError" class="error"></span>
+
+        <label for="im">Upload Photo :</label>
+        <input type="file" name="im" id="photo">
+        <br><br>
+        <span id="photoError" class="error"></span>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function validate() {
+            let valid = true;
+
+            document.querySelectorAll('.error').forEach(e => e.textContent = '');
+
+            const fname = document.getElementById("fname").value;
+            const lname = document.getElementById("lname").value;
+            const fatherName = document.getElementById("fatherName").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const dob = document.getElementById("dob").value;
+            const gender = document.querySelector('input[name="gender"]:checked');
+            const dept = document.getElementById("dept").value;
+            const city = document.getElementById("city").value;
+            const address = document.getElementById("address").value;
+            const photo = document.getElementById("photo").value;
+
+            if (fname.trim() === "" || lname.trim() === "") {
+                document.getElementById("nameError").textContent = "Both first and last names are required.";
+                valid = false;
+            }
+
+            if (fatherName.trim() === "") {
+                document.getElementById("fatherNameError").textContent = "Father's name is required.";
+                valid = false;
+            }
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailError").textContent = "Please enter a valid email.";
+                valid = false;
+            }
+
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                document.getElementById("phoneError").textContent = "Please enter a valid phone number (10 digits).";
+                valid = false;
+            }
+
+            if (dob === "") {
+                document.getElementById("dobError").textContent = "Date of Birth is required.";
+                valid = false;
+            }
+
+            if (!gender) {
+                document.getElementById("genderError").textContent = "Please select gender.";
+                valid = false;
+            }
+
+            if (dept === "") {
+                document.getElementById("deptError").textContent = "Please select a department.";
+                valid = false;
+            }
+
+            if (city === "") {
+                document.getElementById("cityError").textContent = "Please select a city.";
+                valid = false;
+            }
+
+            if (address.trim() === "") {
+                document.getElementById("addressError").textContent = "Address is required.";
+                valid = false;
+            }
+
+            if (photo === "") {
+                document.getElementById("photoError").textContent = "Please upload a photo.";
+                valid = false;
+            }
+
+            return valid;
+        }
+    </script>
+
+</body>
+</html>

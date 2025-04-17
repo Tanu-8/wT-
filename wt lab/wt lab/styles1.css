@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    color: hsl(300, 43%, 7%);
+    text-align: center;
+}
+
+h2 {
+    color: #555;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul li {
+    padding: 5px;
+}
+
+p {
+    margin: 5px 0;
+}
