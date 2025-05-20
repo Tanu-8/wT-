@@ -1,0 +1,84 @@
+Here is the SQL for parts (iii) and (iv), and a simple HTML + PHP-based front end for part (vii).
+
+
+---
+
+iii) Add a New Text Book and Adopt It by a Department
+
+-- Add a new textbook
+INSERT INTO TEXT VALUES (1006, 'Advanced DBMS', 'Cambridge', 'Navathe');
+
+-- Adopt this book for a course in CS department
+INSERT INTO BOOK_ADOPTION VALUES (101, 1, 1006);
+
+
+---
+
+iv) List Textbooks for CS Department Courses Using More Than 2 Books (Alphabetically by Course#)
+
+SELECT BA.course#, BA.book_ISBN, T.book_title
+FROM BOOK_ADOPTION BA
+JOIN COURSE C ON BA.course# = C.course#
+JOIN TEXT T ON BA.book_ISBN = T.book_ISBN
+WHERE C.dept = 'CS'
+  AND BA.course# IN (
+      SELECT course#
+      FROM BOOK_ADOPTION
+      GROUP BY course#
+      HAVING COUNT(book_ISBN) > 2
+)
+ORDER BY BA.course# ASC;
+
+
+---
+
+vii) Front-End (HTML + PHP)
+
+index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Adoption Query</title>
+</head>
+<body>
+  <h2>View Adopted Books for CS Department Courses</h2>
+  <form action="query.php" method="post">
+    <input type="submit" value="Show Results">
+  </form>
+</body>
+</html>
+
+query.php
+
+<?php
+$conn = new mysqli("localhost", "root", "", "college_db");
+
+$sql = "SELECT BA.course#, BA.book_ISBN, T.book_title
+        FROM BOOK_ADOPTION BA
+        JOIN COURSE C ON BA.course# = C.course#
+        JOIN TEXT T ON BA.book_ISBN = T.book_ISBN
+        WHERE C.dept = 'CS'
+          AND BA.course# IN (
+              SELECT course#
+              FROM BOOK_ADOPTION
+              GROUP BY course#
+              HAVING COUNT(book_ISBN) > 2
+        )
+        ORDER BY BA.course# ASC";
+
+$result = $conn->query($sql);
+
+echo "<h2>Books for CS Department Courses (More Than 2)</h2>";
+echo "<table border='1'><tr><th>Course#</th><th>Book ISBN</th><th>Book Title</th></tr>";
+
+while($row = $result->fetch_assoc()) {
+    echo "<tr><td>{$row['course#']}</td><td>{$row['book_ISBN']}</td><td>{$row['book_title']}</td></tr>";
+}
+
+echo "</table>";
+$conn->close();
+?>
+
+Let me know if you want this as a zip file or with a database dump.
+
